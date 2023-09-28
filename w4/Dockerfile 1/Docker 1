@@ -1,0 +1,15 @@
+#create multi stage Docker
+#BUILD stage
+FROM golang:1.21.1-alpine as builder
+#set the working directory
+WORKDIR/app
+#build the app
+RUN go build -o myapp
+#use a smaller image to reduce the size of the finel container
+FROM alpine:latest
+#set working directory
+WORKDIR /root/
+#copy the binary form
+COPY --from=builder /app/myapp .
+#execute the app
+CMD ["./myapp"]
